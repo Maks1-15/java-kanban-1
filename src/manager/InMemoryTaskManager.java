@@ -3,7 +3,6 @@ package manager;
 import java.util.*;
 
 import task.*;
-import manager.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -13,7 +12,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int id = 0;
 
-    HistoryManager HistoryManager = new InMemoryHistoryManager();
+    HistoryManager historyManager = new InMemoryHistoryManager();
 
     // Вывод всех задач
 
@@ -61,13 +60,12 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.clear();
     }
 
-
     // Получение задачи по id
 
     @Override
     public Task getIdTask(int id) {
         if (tasks.containsKey(id)) {
-            HistoryManager.add(tasks.get(id));
+            historyManager.add(tasks.get(id));
             return tasks.get(id);
         }
         // Видел, что null не стоит возвращать, поэтому возвращаю объект
@@ -77,7 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getIdEpic(int id) {
         if (epics.containsKey(id)) {
-            HistoryManager.add(epics.get(id));
+            historyManager.add(epics.get(id));
             return epics.get(id);
 
         }
@@ -87,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getIdSubtask(int id) {
         if (subtasks.containsKey(id)) {
-            HistoryManager.add(subtasks.get(id));
+            historyManager.add(subtasks.get(id));
             return subtasks.get(id);
         }
         return new Subtask(null, null, 0);
@@ -272,5 +270,10 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(Status.IN_PROGRESS);
         }
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 }

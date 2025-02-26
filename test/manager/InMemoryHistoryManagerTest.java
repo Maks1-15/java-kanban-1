@@ -9,17 +9,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-    HistoryManager historyManager = new InMemoryHistoryManager();
-    InMemoryTaskManager manager = new InMemoryTaskManager();
+    HistoryManager hm = new InMemoryHistoryManager();
+    TaskManager tm = new InMemoryTaskManager();
 
     @Test
     void addTest() {
-        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
-        historyManager.add(task);
-        final List<Task> history = historyManager.getHistory();
-        assertNotNull(history, "История не пустая.");
-        assertEquals(1, history.size(), "История не пустая.");
+        Task task1 = new Task("task1", "des", Status.NEW);
+        Task task2 = new Task("task2", "des", Status.NEW);
+        assertEquals(1, hm.add(task2));
     }
+
 }
 
 

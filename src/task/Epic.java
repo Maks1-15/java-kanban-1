@@ -16,7 +16,6 @@ public class Epic extends Task {
         return epicSubtaskId;
     }
 
-
     public void addEpicSubtask(int id) {
         this.epicSubtaskId.add(id);
     }
@@ -24,7 +23,6 @@ public class Epic extends Task {
     public void removeSubtaskId(Integer subtaskId) {
         this.epicSubtaskId.remove(subtaskId);
     }
-
 
     @Override
     public String toString() {

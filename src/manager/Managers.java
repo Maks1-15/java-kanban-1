@@ -1,7 +1,5 @@
 package manager;
 
-import java.util.List;
-
 public final class Managers {
 
     public static TaskManager getDefaultTaskManager() {
