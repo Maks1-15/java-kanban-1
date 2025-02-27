@@ -37,6 +37,8 @@ public class Main {
         tm.getIdEpic(epic1.getId());
         tm.getIdSubtask(subtask1.getId());
         tm.getIdEpic(epic1.getId());
+        tm.getIdEpic(epic1.getId());
+        tm.getIdEpic(epic1.getId());
 
         System.out.println(tm.getHistory());
 

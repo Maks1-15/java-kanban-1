@@ -65,7 +65,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getIdTask(int id) {
         if (tasks.containsKey(id)) {
-            historyManager.add(tasks.get(id));
+            historyManager.addTaskInMapHistory(tasks.get(id));
             return tasks.get(id);
         }
         // Видел, что null не стоит возвращать, поэтому возвращаю объект
@@ -75,7 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getIdEpic(int id) {
         if (epics.containsKey(id)) {
-            historyManager.add(epics.get(id));
+            historyManager.addTaskInMapHistory(epics.get(id));
             return epics.get(id);
 
         }
@@ -85,7 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getIdSubtask(int id) {
         if (subtasks.containsKey(id)) {
-            historyManager.add(subtasks.get(id));
+            historyManager.addTaskInMapHistory(subtasks.get(id));
             return subtasks.get(id);
         }
         return new Subtask(null, null, 0);
@@ -274,6 +274,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getHistory() {
-        return historyManager.getHistory();
+        List<Task> getHistoryList = new ArrayList<>(historyManager.getHistory());
+        return getHistoryList;
     }
 }
