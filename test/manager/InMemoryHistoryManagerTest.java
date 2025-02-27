@@ -1,5 +1,6 @@
 package manager;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.*;
 
@@ -8,8 +9,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
 
-    HistoryManager hm = new InMemoryHistoryManager();
-    TaskManager tm = new InMemoryTaskManager();
+    TaskManager tm;
+    HistoryManager hm;
+
+    @BeforeEach
+    public void beforeEach() {
+        tm = new InMemoryTaskManager();
+        hm = new InMemoryHistoryManager();
+    }
 
     @Test
     void addTest() {
@@ -20,8 +27,6 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void getHistoryTest() {
-        TaskManager tm = new InMemoryTaskManager();
-        HistoryManager hm = new InMemoryHistoryManager();
 
         Task task1 = new Task("task1", "des", Status.NEW);
         Task task2 = new Task("task2", "des", Status.NEW);
