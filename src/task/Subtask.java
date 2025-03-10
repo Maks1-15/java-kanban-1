@@ -9,6 +9,11 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(int id, String name, String description, Status status, int epicId) {
+        super(id, name, description, status);
+        this.epicId = epicId;
+    }
+
     public int getEpicId() {
         return epicId;
     }
@@ -22,6 +27,10 @@ public class Subtask extends Task {
                 ", epicId=' " + getEpicId() + '\'' +
                 ", status=" + getStatus() +
                 '}';
+    }
+
+    public String toFileString() {
+        return String.format("%d,%s,%s,%s,%s,%s\n", getId(), "SUBTASK", getName(), getDescription(), getStatus(), getEpicId());
     }
 }
 

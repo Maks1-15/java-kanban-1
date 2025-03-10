@@ -6,9 +6,9 @@ import task.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private Map<Integer, Task> tasks = new HashMap<>();
-    private Map<Integer, Epic> epics = new HashMap<>();
-    private Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
 
     private int id = 0;
 
@@ -69,7 +69,7 @@ public class InMemoryTaskManager implements TaskManager {
             return tasks.get(id);
         }
         // Видел, что null не стоит возвращать, поэтому возвращаю объект
-        return new Task(null, null, Status.NULL);
+        return null;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class InMemoryTaskManager implements TaskManager {
             return epics.get(id);
 
         }
-        return new Epic(null, null);
+        return null;
     }
 
     @Override
@@ -88,7 +88,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.addTaskInMapHistory(subtasks.get(id));
             return subtasks.get(id);
         }
-        return new Subtask(null, null, 0);
+        return null;
     }
 
     // Создание задач

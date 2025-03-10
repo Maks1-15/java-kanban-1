@@ -1,7 +1,7 @@
 package manager;
 
 import task.Task;
-
+import java.io.File;
 import java.util.List;
 
 public final class Managers {
@@ -16,7 +16,12 @@ public final class Managers {
         return new InMemoryHistoryManager();
     }
 
+    public static TaskManager getFileBackedTaskManager(File file) {
+        return new FileBackedTaskManager(file);
+    }
+
     public List<Task> getDefaultHistory() {
         return tm.getHistory();
     }
+
 }

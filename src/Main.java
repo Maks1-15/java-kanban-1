@@ -1,46 +1,49 @@
-import manager.HistoryManager;
-import manager.InMemoryHistoryManager;
-import manager.InMemoryTaskManager;
-import manager.TaskManager;
-import task.Epic;
-import task.Status;
-import task.Subtask;
-import task.Task;
+import task.*;
+import manager.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
 
     public static void main(String[] args) {
-        // Создаем экземпляр TaskManager
-        TaskManager tm = new InMemoryTaskManager();
-        HistoryManager hm = new InMemoryHistoryManager();
+
+        Path directory = Paths.get("E:\\prj\\java-kanban\\src\\resources");
+        String fileName = "test.csv";
+        File file = directory.resolve(fileName).toFile();
+
+        FileBackedTaskManager fbtm = (FileBackedTaskManager) Managers.getFileBackedTaskManager(file);
 
         Task task1 = new Task("task1", "des", Status.NEW);
         Task task2 = new Task("task2", "des", Status.NEW);
         Epic epic1 = new Epic("epic1", "des");
         Epic epic2 = new Epic("epic2", "des");
 
-        tm.createTask(task1);
-        tm.createTask(task2);
-        tm.createEpic(epic1);
-        tm.createEpic(epic2);
+        fbtm.createTask(task1);
+        fbtm.createTask(task2);
+        fbtm.createEpic(epic1);
+        fbtm.createEpic(epic2);
 
         Subtask subtask1 = new Subtask("subtask1", "des", epic1.getId());
         Subtask subtask2 = new Subtask("subtask2", "des", epic1.getId());
         Subtask subtask3 = new Subtask("subtask3", "des", epic1.getId());
 
-        tm.createSubtask(subtask1);
-        tm.createSubtask(subtask2);
-        tm.createSubtask(subtask3);
+        fbtm.createSubtask(subtask1);
+        fbtm.createSubtask(subtask2);
+        fbtm.createSubtask(subtask3);
 
-        tm.getIdTask(task1.getId());
-        tm.getIdTask(task2.getId());
-        tm.getIdEpic(epic1.getId());
-        tm.getIdSubtask(subtask1.getId());
-        tm.getIdEpic(epic1.getId());
-        tm.getIdEpic(epic1.getId());
-        tm.getIdEpic(epic1.getId());
+        fbtm.save();
 
-        System.out.println(tm.getHistory());
+        FileBackedTaskManager newTaskManager = FileBackedTaskManager.loadFromFile(file);
+
+        if (newTaskManager != null) {
+            System.out.println("Задачи после загрузки:");
+            System.out.println(newTaskManager.getAllTask());
+            System.out.println(newTaskManager.getAllEpic());
+            System.out.println(newTaskManager.getAllSubtask());
+        } else {
+            System.out.println("Задачи не загружены");
+        }
 
     }
 }
