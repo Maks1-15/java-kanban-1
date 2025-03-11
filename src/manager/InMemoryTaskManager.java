@@ -3,17 +3,16 @@ package manager;
 import java.util.*;
 
 import task.*;
-import manager.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    Map<Integer, Task> tasks = new HashMap<>();
-    Map<Integer, Epic> epics = new HashMap<>();
-    Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
 
     private int id = 0;
 
-    HistoryManager HistoryManager = new InMemoryHistoryManager();
+    HistoryManager historyManager = new InMemoryHistoryManager();
 
     // Вывод всех задач
 
@@ -61,36 +60,35 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.clear();
     }
 
-
     // Получение задачи по id
 
     @Override
     public Task getIdTask(int id) {
         if (tasks.containsKey(id)) {
-            HistoryManager.add(tasks.get(id));
+            historyManager.addTaskInMapHistory(tasks.get(id));
             return tasks.get(id);
         }
         // Видел, что null не стоит возвращать, поэтому возвращаю объект
-        return new Task(null, null, Status.NULL);
+        return null;
     }
 
     @Override
     public Epic getIdEpic(int id) {
         if (epics.containsKey(id)) {
-            HistoryManager.add(epics.get(id));
+            historyManager.addTaskInMapHistory(epics.get(id));
             return epics.get(id);
 
         }
-        return new Epic(null, null);
+        return null;
     }
 
     @Override
     public Subtask getIdSubtask(int id) {
         if (subtasks.containsKey(id)) {
-            HistoryManager.add(subtasks.get(id));
+            historyManager.addTaskInMapHistory(subtasks.get(id));
             return subtasks.get(id);
         }
-        return new Subtask(null, null, 0);
+        return null;
     }
 
     // Создание задач
@@ -272,5 +270,11 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(Status.IN_PROGRESS);
         }
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        List<Task> getHistoryList = new ArrayList<>(historyManager.getHistory());
+        return getHistoryList;
     }
 }

@@ -9,6 +9,13 @@ public class Task {
     private int id;
     private Status status;
 
+    public Task(int id, String name, String description, Status status) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
@@ -67,5 +74,10 @@ public class Task {
                 ", id=" + id +
                 ", status=" + status +
                 '}';
+    }
+
+    public String toFileString() {
+        // id,type,name,status,description,epic
+        return String.format("%d,%s,%s,%s,%s,\n", getId(), "TASK", getName(), getDescription(), getStatus());
     }
 }
