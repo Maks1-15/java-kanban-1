@@ -1,4 +1,4 @@
-package manager;
+package service;
 
 import task.Task;
 
@@ -7,26 +7,26 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node> mapHistory = new HashMap<>();
-    private Node head;
-    private Node tail;
+    private Node head; // узел головы
+    private Node tail; // узел хвоста
 
     @Override
     public int addTaskInMapHistory(Task task) {
         if (task == null) {
             return -1;
         }
-
+        // удаляем запись, если она была до этого записана в истории
         if (mapHistory.containsKey(task.getId())) {
             removeIdByHistoryMap(task.getId());
         }
-
+        // добавляем актуальную запись
         mapHistory.put(task.getId(), linkLast(task));
-        return 1;
+        return task.getId();
     }
 
     @Override
     public void removeIdByHistoryMap(int id) {
-        if (id < 0) {
+        if (id < 0 || !mapHistory.containsKey(id)) {
             return;
         }
         removeNode(mapHistory.get(id));
@@ -46,11 +46,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private Node linkLast(Task task) {
         if (task == null) {
-            new Node(null, null, null);
+            return null;
         }
 
         final Node newNode = new Node(tail, task, null);
-
         if (tail != null) {
             tail.next = newNode;
         }
@@ -59,17 +58,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (head == null) {
             head = newNode;
         }
-
         return newNode;
     }
 
-    private int removeNode(Node n) {
+    private void removeNode(Node n) {
         if (n == null) {
-            return -1;
+            return;
         }
 
         if (n.prev == null && n.next == null) {
-            return -1;
+            return;
         }
 
         if (n.prev != null) {
@@ -83,7 +81,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             tail = n.prev;
         }
-        return 1;
     }
 
     private class Node {
